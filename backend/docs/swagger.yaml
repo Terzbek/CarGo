@@ -1,0 +1,379 @@
+definitions:
+  models.Booking:
+    properties:
+      car_id:
+        type: integer
+      created_at:
+        type: string
+      end_date:
+        type: string
+      id:
+        type: integer
+      limit:
+        type: integer
+      offset:
+        type: integer
+      renter_id:
+        type: integer
+      start_date:
+        type: string
+      status:
+        description: pending, confirmed, canceled, completed
+        type: string
+      total_price:
+        type: number
+    type: object
+  models.Car:
+    properties:
+      bookings:
+        items:
+          $ref: '#/definitions/models.Booking'
+        type: array
+      created_at:
+        type: string
+      description:
+        type: string
+      fuel_type:
+        type: string
+      id:
+        type: integer
+      images:
+        items:
+          $ref: '#/definitions/models.CarImage'
+        type: array
+      is_available:
+        type: boolean
+      limit:
+        type: integer
+      location:
+        type: string
+      mark:
+        type: string
+      max_price:
+        type: number
+      max_year:
+        type: integer
+      min_price:
+        type: number
+      min_year:
+        type: integer
+      model:
+        type: string
+      offset:
+        type: integer
+      owner:
+        $ref: '#/definitions/models.User'
+      owner_id:
+        type: integer
+      price_per_day:
+        type: number
+      seats:
+        type: integer
+      title:
+        type: string
+      transmission:
+        type: string
+      year:
+        type: integer
+    type: object
+  models.CarImage:
+    properties:
+      car_id:
+        type: integer
+      id:
+        type: integer
+      image_url:
+        type: string
+    type: object
+  models.User:
+    properties:
+      cars:
+        description: has many
+        items:
+          $ref: '#/definitions/models.Car'
+        type: array
+      created_at:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      phone_number:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/booking:
+    post:
+      parameters:
+      - description: тело запроса для бронирования
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.Booking'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: Создать запись для брони
+      tags:
+      - booking
+    put:
+      parameters:
+      - description: тело запроса
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.Booking'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: Обновить запись для брони
+      tags:
+      - booking
+  /api/v1/booking/:id:
+    delete:
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: Удалить бронь
+      tags:
+      - booking
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: Получить детали бронирования
+      tags:
+      - booking
+  /api/v1/booking/request/:id:
+    get:
+      parameters:
+      - description: id пользователя
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Booking'
+            type: array
+      summary: Роут возвращает запросы на бронь на машину пользователя.
+      tags:
+      - booking
+  /api/v1/booking/search:
+    post:
+      parameters:
+      - description: тело запроса
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.Booking'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: Поиск по записям брони.Почти все что есть в теле запроса можно найти.
+        То есть можно использовать как фильтр
+      tags:
+      - booking
+  /api/v1/booking/status/update:
+    post:
+      parameters:
+      - description: достаточны поля id и status
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.Booking'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: 'Роут используется для принятия/отклонения запроса на бронь. Возможные
+        статусы: pending, confirmed, canceled'
+      tags:
+      - booking
+  /api/v1/cars:
+    post:
+      parameters:
+      - description: тело запроса
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.Car'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Car'
+      summary: Создать запись машины.При создании записи не нужно отправлять поле
+        bookings.
+      tags:
+      - car
+    put:
+      parameters:
+      - description: тело запроса
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.Car'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Car'
+      summary: Обновить запись машины
+      tags:
+      - car
+  /api/v1/cars/:id:
+    delete:
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: Удалить машину
+      tags:
+      - car
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: Получить детали машины
+      tags:
+      - car
+  /api/v1/cars/search:
+    post:
+      parameters:
+      - description: тело запроса
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.Car'
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Car'
+            type: array
+      summary: 'Поиск по машинам. Фильтр: тело запроса'
+      tags:
+      - cars
+  /api/v1/user:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Получить всех пользователей. Сырой роут
+      tags:
+      - user
+    post:
+      parameters:
+      - description: тело запроса
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Создать запись пользователя
+      tags:
+      - user
+    put:
+      parameters:
+      - description: тело запроса
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Обновить запись пользователя
+      tags:
+      - user
+  /api/v1/user/:id:
+    delete:
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: Удалить пользователя
+      tags:
+      - user
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Получить детали пользователя
+      tags:
+      - user
+  /api/v1/user/login:
+    post:
+      parameters:
+      - description: тело запроса
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Имитация логина пользователя. Нужно просто отправить номер телефона
+        пользователя. Вернет данные пользователя, которые затем можно использовать
+        в дальнейшем
+      tags:
+      - user
+swagger: "2.0"

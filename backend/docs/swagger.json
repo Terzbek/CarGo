@@ -1,0 +1,582 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/v1/booking": {
+            "put": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Обновить запись для брони",
+                "parameters": [
+                    {
+                        "description": "тело запроса",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Создать запись для брони",
+                "parameters": [
+                    {
+                        "description": "тело запроса для бронирования",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/booking/:id": {
+            "get": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Получить детали бронирования",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Удалить бронь",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/booking/request/:id": {
+            "get": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Роут возвращает запросы на бронь на машину пользователя.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id пользователя",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Booking"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/booking/search": {
+            "post": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Поиск по записям брони.Почти все что есть в теле запроса можно найти. То есть можно использовать как фильтр",
+                "parameters": [
+                    {
+                        "description": "тело запроса",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/booking/status/update": {
+            "post": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Роут используется для принятия/отклонения запроса на бронь. Возможные статусы: pending, confirmed, canceled",
+                "parameters": [
+                    {
+                        "description": "достаточны поля id и status",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cars": {
+            "put": {
+                "tags": [
+                    "car"
+                ],
+                "summary": "Обновить запись машины",
+                "parameters": [
+                    {
+                        "description": "тело запроса",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "car"
+                ],
+                "summary": "Создать запись машины.При создании записи не нужно отправлять поле bookings.",
+                "parameters": [
+                    {
+                        "description": "тело запроса",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cars/:id": {
+            "get": {
+                "tags": [
+                    "car"
+                ],
+                "summary": "Получить детали машины",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "car"
+                ],
+                "summary": "Удалить машину",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/v1/cars/search": {
+            "post": {
+                "tags": [
+                    "cars"
+                ],
+                "summary": "Поиск по машинам. Фильтр: тело запроса",
+                "parameters": [
+                    {
+                        "description": "тело запроса",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Car"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Получить всех пользователей. Сырой роут",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.User"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Обновить запись пользователя",
+                "parameters": [
+                    {
+                        "description": "тело запроса",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Создать запись пользователя",
+                "parameters": [
+                    {
+                        "description": "тело запроса",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/:id": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Получить детали пользователя",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Удалить пользователя",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/v1/user/login": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Имитация логина пользователя. Нужно просто отправить номер телефона пользователя. Вернет данные пользователя, которые затем можно использовать в дальнейшем",
+                "parameters": [
+                    {
+                        "description": "тело запроса",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Booking": {
+            "type": "object",
+            "properties": {
+                "car_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "renter_id": {
+                    "type": "integer"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "pending, confirmed, canceled, completed",
+                    "type": "string"
+                },
+                "total_price": {
+                    "type": "number"
+                }
+            }
+        },
+        "models.Car": {
+            "type": "object",
+            "properties": {
+                "bookings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Booking"
+                    }
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "fuel_type": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.CarImage"
+                    }
+                },
+                "is_available": {
+                    "type": "boolean"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "mark": {
+                    "type": "string"
+                },
+                "max_price": {
+                    "type": "number"
+                },
+                "max_year": {
+                    "type": "integer"
+                },
+                "min_price": {
+                    "type": "number"
+                },
+                "min_year": {
+                    "type": "integer"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "owner": {
+                    "$ref": "#/definitions/models.User"
+                },
+                "owner_id": {
+                    "type": "integer"
+                },
+                "price_per_day": {
+                    "type": "number"
+                },
+                "seats": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "transmission": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.CarImage": {
+            "type": "object",
+            "properties": {
+                "car_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "image_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "cars": {
+                    "description": "has many",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Car"
+                    }
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
